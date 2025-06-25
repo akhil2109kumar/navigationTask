@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import type { DragStart } from "@hello-pangea/dnd"
 
 interface FormPage {
   id: string
@@ -33,7 +34,7 @@ export function FormPageNavigation() {
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
   const nextIdRef = useRef(5)
 
-  const handleDragStart = useCallback((start: any) => {
+  const handleDragStart = useCallback((start: DragStart) => {
     setDraggedItem(start.draggableId)
   }, [])
 
@@ -120,7 +121,7 @@ export function FormPageNavigation() {
     <div className="w-full max-w-full overflow-hidden">
       <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <Droppable droppableId="pages" direction="horizontal">
-          {(provided, snapshot) => (
+          {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -131,7 +132,7 @@ export function FormPageNavigation() {
                 {pages.map((page, index) => (
                   <React.Fragment key={page.id}>
                     <Draggable draggableId={page.id} index={index}>
-                      {(provided, snapshot) => (
+                      {(provided) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -143,7 +144,6 @@ export function FormPageNavigation() {
                 ? "bg-orange-50 border border-orange-200 text-orange-700 shadow-sm"
                 : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
             }
-            ${snapshot.isDragging ? "shadow-lg rotate-2 scale-105 z-50" : "shadow-sm"}
             ${draggedItem === page.id ? "opacity-50" : ""}
           `}
                           onClick={() => setActivePage(page.id)}
