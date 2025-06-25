@@ -1,6 +1,9 @@
 "use client"
 
 import { FormPageNavigation } from "@/components/form-page-navigation"
+import { Inter } from "next/font/google"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
   return (
